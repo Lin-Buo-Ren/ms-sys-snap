@@ -19,6 +19,7 @@ description: |
 
 grade: stable
 confinement: strict
+license: GPL-2.0-or-later
 
 parts:
   # Check out the tagged release revision if it isn't promoted to the stable channel
