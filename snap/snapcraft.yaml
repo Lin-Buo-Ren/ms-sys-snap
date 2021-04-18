@@ -1,0 +1,61 @@
+name: ms-sys
+base: core18
+adopt-info: main
+summary: Linux program for writing Microsoft compatible boot records
+description: |
+  This is a Linux program for writing Microsoft compatible boot
+  records. The program does the same as Microsoft "fdisk /mbr" to a
+  hard disk or "sys d:" to a floppy or FAT partition except that it
+  does not copy any system files, only the boot record is written. 
+
+  **Snap-specific information**
+
+  This is NOT an official distribution of ms-sys, refer the snap's own
+  issue tracker for support:
+
+  https://github.com/Lin-Buo-Ren/ms-sys-snap/issues
+
+grade: stable
+confinement: strict
+
+parts:
+  # Check out the tagged release revision if it isn't promoted to the stable channel
+  # https://forum.snapcraft.io/t/selective-checkout-check-out-the-tagged-release-revision-if-it-isnt-promoted-to-the-stable-channel/10617
+  selective-checkout:
+    source: https://github.com/Lin-Buo-Ren/selective-checkout.git
+    source-tag: v2.0.2
+    plugin: dump
+    build-packages:
+      # Scriptlet dependencies
+      - curl
+      - jq
+      - sed
+    stage:
+      - scriptlets/selective-checkout
+    prime:
+      - -*
+
+  main:
+    after:
+      - selective-checkout
+    source: https://svn.code.sf.net/p/ms-sys/code2/trunk
+    source-type: svn
+    override-pull: |
+      snapcraftctl pull
+
+      "${SNAPCRAFT_STAGE}"/scriptlets/selective-checkout \
+        --append-packaging-revision \
+        --release-tag-prefix=ms-sys-
+
+    plugin: make
+    make-parameters:
+      - PREFIX=/
+    build-packages:
+      - gettext
+
+plugs:
+  block-devices:
+
+apps:
+  ms-sys:
+    command: ms-sys
