@@ -10,10 +10,12 @@ description: |
 
   **Snap-specific information**
 
-  This is NOT an official distribution of ms-sys, refer the snap's own
-  issue tracker for support:
+  * This is NOT an official distribution of ms-sys, refer the snap's own
+    issue tracker for support:
 
-  https://github.com/Lin-Buo-Ren/ms-sys-snap/issues
+    https://github.com/Lin-Buo-Ren/ms-sys-snap/issues
+
+  * This snap ships the `ms-sys` terminal command
 
 grade: stable
 confinement: strict
